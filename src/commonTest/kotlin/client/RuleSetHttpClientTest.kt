@@ -11,18 +11,19 @@ import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import java.time.Instant
 import kotlin.test.Test
 import kotlin.test.assertEquals
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class RuleSetHttpClientTest {
 
+    private val referenceEpochSeconds : Long = 1673123605
+
     @Test
     fun retrievedRuleSetIsCached() = runTest {
         val expectedRuleSet = RuleSet(
             rules = listOf(),
-            timestamp = Instant.now().epochSecond
+            timestamp = referenceEpochSeconds
         )
         val mockEngine = MockEngine { request ->
             respond(
@@ -40,7 +41,7 @@ class RuleSetHttpClientTest {
     fun retrievedRuleSetMatchesValueFromServer() = runTest {
         val expectedRuleSet = RuleSet(
             rules = listOf(),
-            timestamp = Instant.now().epochSecond
+            timestamp = referenceEpochSeconds
         )
 
         var timesCalled = 0
