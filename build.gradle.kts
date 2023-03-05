@@ -1,3 +1,6 @@
+import org.gradle.internal.impldep.org.junit.platform.launcher.TagFilter.excludeTags
+import org.jetbrains.kotlin.gradle.targets.jvm.tasks.KotlinJvmTest
+
 val ktorVersion = "2.1.3"
 val coroutinesVersion = "1.6.4"
 
@@ -21,17 +24,18 @@ kotlin {
         }
         withJava()
         testRuns["test"].executionTask.configure {
-            useJUnitPlatform()
+            useJUnitPlatform{
+                excludeTags("integration")
+            }
+        }
+        tasks.register("integration-test", KotlinJvmTest::class) {
+            useJUnitPlatform {
+                includeTags("integration")
+            }
         }
     }
     js(IR) {
-        browser {
-            testTask {
-                useKarma {
-                    useFirefox()
-                }
-            }
-        }
+        nodejs()
     }
     val hostOs = System.getProperty("os.name")
     val isMingwX64 = hostOs.startsWith("Windows")
@@ -50,6 +54,8 @@ kotlin {
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
+                implementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutinesVersion")
+                implementation("io.ktor:ktor-client-auth:$ktorVersion")
             }
         }
         val commonTest by getting {
@@ -57,14 +63,13 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
+                implementation("io.ktor:ktor-client-cio:$ktorVersion")
             }
         }
         val jvmMain by getting
         val jvmTest by getting
         val jsMain by getting
         val jsTest by getting
-        val nativeMain by getting
-        val nativeTest by getting
     }
 }
 
