@@ -1,4 +1,4 @@
-import org.gradle.internal.impldep.org.junit.platform.launcher.TagFilter.excludeTags
+import java.net.URI
 import org.jetbrains.kotlin.gradle.targets.jvm.tasks.KotlinJvmTest
 
 val ktorVersion = "2.1.3"
@@ -14,6 +14,13 @@ version = "1.0.0"
 
 repositories {
     mavenLocal()
+    maven {
+        url = uri("https://maven.pkg.github.com/mfrancza/jwt-revocation-rules")
+        credentials {
+            username = System.getenv("USERNAME")
+            password = System.getenv("TOKEN")
+        }
+    }
     mavenCentral()
 }
 
@@ -65,6 +72,19 @@ kotlin {
         }
         val jsMain by getting
         val jsTest by getting
+    }
+}
+
+publishing {
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = URI("https://maven.pkg.github.com/mfrancza/jwt-revocation-ktor-server-auth")
+            credentials {
+                username = System.getenv("USERNAME")
+                password = System.getenv("TOKEN")
+            }
+        }
     }
 }
 
