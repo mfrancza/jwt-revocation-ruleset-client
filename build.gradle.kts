@@ -79,7 +79,7 @@ publishing {
     repositories {
         maven {
             name = "GitHubPackages"
-            url = URI("https://maven.pkg.github.com/mfrancza/jwt-revocation-ktor-server-auth")
+            url = URI("https://maven.pkg.github.com/mfrancza/jwt-revocation-ruleset-client")
             credentials {
                 username = System.getenv("USERNAME")
                 password = System.getenv("TOKEN")
