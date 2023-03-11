@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.mfrancza"
-version = "1.0-SNAPSHOT"
+version = "1.0.0"
 
 repositories {
     mavenLocal()
@@ -37,20 +37,12 @@ kotlin {
     js(IR) {
         nodejs()
     }
-    val hostOs = System.getProperty("os.name")
-    val isMingwX64 = hostOs.startsWith("Windows")
-    val nativeTarget = when {
-        hostOs == "Mac OS X" -> macosX64("native")
-        hostOs == "Linux" -> linuxX64("native")
-        isMingwX64 -> mingwX64("native")
-        else -> throw GradleException("Host OS is not supported in Kotlin/Native.")
-    }
 
     
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.mfrancza:jwt-revocation-rules:1.0-SNAPSHOT")
+                implementation("com.mfrancza:jwt-revocation-rules:1.0.0")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
@@ -63,11 +55,14 @@ kotlin {
                 implementation(kotlin("test"))
                 implementation("io.ktor:ktor-client-mock:$ktorVersion")
                 implementation("org.jetbrains.kotlinx:kotlinx-coroutines-test:$coroutinesVersion")
-                implementation("io.ktor:ktor-client-cio:$ktorVersion")
             }
         }
         val jvmMain by getting
-        val jvmTest by getting
+        val jvmTest by getting {
+            dependencies {
+                implementation("io.ktor:ktor-client-cio:$ktorVersion")
+            }
+        }
         val jsMain by getting
         val jsTest by getting
     }
