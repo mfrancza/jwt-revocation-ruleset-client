@@ -28,7 +28,7 @@ kotlin {
                 excludeTags("integration")
             }
         }
-        tasks.register("integration-test", KotlinJvmTest::class) {
+        tasks.register("integrationTest", KotlinJvmTest::class) {
             useJUnitPlatform {
                 includeTags("integration")
             }
