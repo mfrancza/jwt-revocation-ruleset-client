@@ -10,7 +10,7 @@ plugins {
 }
 
 group = "com.mfrancza"
-version = "1.0.0"
+version = "1.1.0-SNAPSHOT"
 
 repositories {
     mavenLocal()
@@ -49,7 +49,7 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation("com.mfrancza:jwt-revocation-rules:1.0.0")
+                implementation("com.mfrancza:jwt-revocation-rules:1.1.0-SNAPSHOT")
                 implementation("io.ktor:ktor-serialization-kotlinx-json:$ktorVersion")
                 implementation("io.ktor:ktor-client-core:$ktorVersion")
                 implementation("io.ktor:ktor-client-content-negotiation:$ktorVersion")
