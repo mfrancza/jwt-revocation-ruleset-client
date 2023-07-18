@@ -25,11 +25,8 @@ repositories {
 }
 
 kotlin {
+    jvmToolchain(11)
     jvm {
-        compilations.all {
-            kotlinOptions.jvmTarget = "1.8"
-        }
-        withJava()
         testRuns["test"].executionTask.configure {
             useJUnitPlatform{
                 excludeTags("integration")
